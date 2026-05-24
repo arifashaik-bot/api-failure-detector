@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>API Failure Detection Agent - Intelligent Debugging</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <span class="logo-icon">⚡</span>
+        <span class="logo-text">APIDebug</span>
+      </div>
+      <div class="nav-items">
+        <button class="theme-toggle" id="themeToggle" title="Toggle dark/light mode">
+          <span class="theme-icon">🌙</span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="animated-gradient-text">
+        <h1>API Failure<br>Detection Agent</h1>
+      </div>
+      <p class="hero-subtitle">Upload your API logs, let AI find failures and fix them instantly</p>
+      <div class="hero-badges">
+        <span class="badge">🤖 AI-Powered</span>
+        <span class="badge">⚡ Real-Time</span>
+        <span class="badge">📊 Intelligent</span>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="floating-card card-1">
+        <div class="card-icon">🔍</div>
+        <div class="card-text">Detect</div>
+      </div>
+      <div class="floating-card card-2">
+        <div class="card-icon">🧠</div>
+        <div class="card-text">Analyze</div>
+      </div>
+      <div class="floating-card card-3">
+        <div class="card-icon">✨</div>
+        <div class="card-text">Fix</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Upload Section -->
+    <section class="upload-section">
+      <div class="upload-card">
+        <h2>Upload & Analyze</h2>
+        <div class="upload-zone" id="uploadZone">
+          <div class="upload-icon">📁</div>
+          <h3>Drop your log file here</h3>
+          <p>or click to browse</p>
+          <input type="file" id="fileInput" class="file-input" accept=".txt,.log,.json,.csv" hidden>
+          <small>Supported: .txt, .log, .json, .csv</small>
+        </div>
+        <div class="file-info" id="fileInfo" style="display: none;">
+          <div class="file-details">
+            <span class="file-icon">📄</span>
+            <div>
+              <div class="file-name" id="fileName"></div>
+              <div class="file-size" id="fileSize"></div>
+            </div>
+          </div>
+          <button class="btn-clear" id="clearBtn">Clear</button>
+        </div>
+        <button class="btn-primary" id="analyzeBtn" disabled>
+          <span>Analyze Failures</span>
+          <span class="btn-icon">→</span>
+        </button>
+      </div>
+
+      <!-- Quick Demo Button -->
+      <div class="demo-section">
+        <p>Want to see it in action?</p>
+        <button class="btn-secondary" id="demoBtn">Load Sample Logs</button>
+      </div>
+    </section>
+
+    <!-- Statistics Section -->
+    <section class="stats-section" id="statsSection" style="display: none;">
+      <h2>Analysis Results</h2>
+      <div class="stats-grid">
+        <div class="stat-card stat-total">
+          <div class="stat-icon">📊</div>
+          <div class="stat-content">
+            <div class="stat-label">Total Logs</div>
+            <div class="stat-value" id="statTotal">0</div>
+          </div>
+        </div>
+        <div class="stat-card stat-success">
+          <div class="stat-icon">✅</div>
+          <div class="stat-content">
+            <div class="stat-label">Successful</div>
+            <div class="stat-value" id="statSuccess">0</div>
+          </div>
+        </div>
+        <div class="stat-card stat-failures">
+          <div class="stat-icon">❌</div>
+          <div class="stat-content">
+            <div class="stat-label">Failures Found</div>
+            <div class="stat-value" id="statFailures">0</div>
+          </div>
+        </div>
+        <div class="stat-card stat-rate">
+          <div class="stat-icon">📈</div>
+          <div class="stat-content">
+            <div class="stat-label">Success Rate</div>
+            <div class="stat-value" id="statRate">0%</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="filters-section" id="filtersSection" style="display: none;">
+      <div class="filter-controls">
+        <div class="search-box">
+          <input type="text" id="searchInput" placeholder="Search by endpoint..." class="search-input">
+          <span class="search-icon">🔍</span>
+        </div>
+        <div class="severity-filters">
+          <button class="filter-btn active" data-severity="all">All</button>
+          <button class="filter-btn critical" data-severity="Critical">Critical</button>
+          <button class="filter-btn high" data-severity="High">High</button>
+          <button class="filter-btn medium" data-severity="Medium">Medium</button>
+        </div>
+        <div class="view-toggle">
+          <button class="view-btn active" data-view="list" title="List view">≡</button>
+          <button class="view-btn" data-view="grid" title="Grid view">⊞</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Failures List Section -->
+    <section class="failures-section" id="failuresSection" style="display: none;">
+      <div class="failures-header">
+        <h2>Issues Detected</h2>
+        <div class="export-controls">
+          <button class="btn-export" id="exportBtn" title="Export results">📥 Export</button>
+        </div>
+      </div>
+      <div class="failures-list" id="failuresList"></div>
+    </section>
+
+    <!-- Empty State -->
+    <section class="success-section" id="successSection" style="display: none;">
+      <div class="success-card">
+        <div class="success-emoji">🎉</div>
+        <h2>Perfect API Health!</h2>
+        <p>No failures detected. Your API is running smoothly.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal for Failure Details -->
+  <div class="modal" id="failureModal">
+    <div class="modal-content">
+      <button class="modal-close">&times;</button>
+      <div class="modal-header">
+        <div class="modal-title-section">
+          <div class="severity-badge" id="modalSeverity"></div>
+          <h2 id="modalTitle"></h2>
+        </div>
+        <div class="modal-meta">
+          <span class="modal-endpoint" id="modalEndpoint"></span>
+          <span class="modal-status" id="modalStatus"></span>
+        </div>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-section">
+          <h3>📋 Description</h3>
+          <p id="modalDescription"></p>
+        </div>
+
+        <div class="modal-section">
+          <h3>🔍 Root Cause</h3>
+          <p id="modalRootCause"></p>
+        </div>
+
+        <div class="modal-section">
+          <h3>💡 Fix Suggestion</h3>
+          <p id="modalFixSuggestion"></p>
+        </div>
+
+        <div class="modal-section code-section">
+          <div class="code-header">
+            <h3>💻 Code Example</h3>
+            <button class="btn-copy" id="copyCodeBtn" title="Copy to clipboard">
+              <span class="copy-icon">📋</span>
+              <span class="copy-text">Copy</span>
+            </button>
+          </div>
+          <pre id="modalCodeExample"><code></code></pre>
+        </div>
+
+        <div class="modal-stats">
+          <div class="modal-stat">
+            <span class="stat-label">Occurrences</span>
+            <span class="stat-value" id="modalCount">0</span>
+          </div>
+          <div class="modal-stat">
+            <span class="stat-label">Severity</span>
+            <span class="stat-value" id="modalSeverityValue"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Spinner -->
+  <div class="loading-spinner" id="loadingSpinner">
+    <div class="spinner"></div>
+    <p>Analyzing logs with AI...</p>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <p>Made with ❤️ for hackathons | API Failure Detection Agent v1.0</p>
+      <div class="footer-links">
+        <a href="#" onclick="showHelp(); return false;">Help</a>
+        <a href="#" onclick="downloadSample(); return false;">Sample Logs</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
