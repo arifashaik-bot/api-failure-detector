@@ -2,7 +2,7 @@
 // APP STATE & CONFIGURATION
 // ============================================
 
-const API_URL = 'https://api-failure-detector.onrender.com';
+const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://api-failure-detector.onrender.com';
 let currentResults = null;
 let uploadedContent = '';
 let currentFailures = [];
