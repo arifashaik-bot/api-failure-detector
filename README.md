@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # API Failure Detector
 
 AI-powered tool that analyzes API logs, detects failures, and provides intelligent fix recommendations.
