@@ -2,7 +2,7 @@
 // APP STATE & CONFIGURATION
 // ============================================
 
-const API_URL = 'http://localhost:5000';
+const API_URL = 'https://api-failure-detector-6eyo.vercel.app';
 let currentResults = null;
 let uploadedContent = '';
 let currentFailures = [];
