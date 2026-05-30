@@ -2,6 +2,9 @@
 
 AI-powered tool that analyzes API logs, detects failures, and provides intelligent fix recommendations.
 
+## Live Demo
+🌐 Live Project: https://api-failure-detector-sjot.vercel.app/
+
 ## Features
 
 - Upload log files in TXT, LOG, JSON, or CSV format
